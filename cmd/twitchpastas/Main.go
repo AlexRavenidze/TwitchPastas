@@ -10,13 +10,19 @@ import (
 	"github.com/AlexRavenidze/TwitchPastas/internal/controller"
 	"github.com/AlexRavenidze/TwitchPastas/internal/logger"
 	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
 	"go.uber.org/zap"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Panic(err)
+	}
+
 	var cfg config.Configuration
-	if err := envconfig.Process("", &cfg); err != nil {
+	if err = envconfig.Process("", &cfg); err != nil {
 		log.Println(err)
 	}
 	logger, err := logger.InitLogger(cfg.AppConfig.LogLevel)
